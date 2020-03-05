@@ -1,6 +1,11 @@
 # 316epilepsy
 ##Dependencies
 ###Installations
-Developers should have the following environment setups:
-- pipenv: `brew install pipenv`: pipenv creates a pip-compatible environment
-- gunicorn `pipenv install gunicorn`: gunicorn works with heroku to run the code that launches the webapp
+Developers should run the following commands
+`brew install pipenv
+pipenv install gunicorn
+pipenv install flask
+pipenv shell
+pipenv install flask-sqlalchemy
+pipenv install flask-login
+pipenv install python-dotenv`
