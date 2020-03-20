@@ -6,15 +6,15 @@ from flask_qa.models import Question, User
 
 main = Blueprint('main', __name__)
 
-@main.route('/')
-def index():
-    questions = Question.query.filter(Question.answer != None).all()
+# @main.route('/')
+# def index():
+#     questions = Question.query.filter(Question.answer != None).all()
 
-    context = {
-        'questions' : questions
-    }
+#     context = {
+#         'questions' : questions
+#     }
 
-    return render_template('home.html', **context)
+#     return render_template('home.html', **context)
 
 @main.route('/ask', methods=['GET', 'POST'])
 @login_required
