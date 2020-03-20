@@ -7,9 +7,9 @@ verify_ssl = true
 
 [packages]
 flask = "*"
-flask-sqlalchemy = "*"
 flask-login = "*"
+flask-sqlalchemy = "*"
 python-dotenv = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.8"
