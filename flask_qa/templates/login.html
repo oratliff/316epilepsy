@@ -7,6 +7,11 @@
       </div>
         <div class="row">
           <div class="col-lg-12">
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <div>{{ messages[0]}}<br><br></div>
+              {% endif %}
+            {% endwith %}
             <div class="well bs-component">
               <form class="form-horizontal" method="POST" action="{{ url_for('main.login') }}">
                 <fieldset>
