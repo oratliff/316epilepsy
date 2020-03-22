@@ -22,8 +22,11 @@ The following files are miscellaneous:
 
 ## How to run locally
 Run the following commands in the git repo folder on your local machine. 
+If this is the first time you are running, install flask-login and flask-sqlalchemy:
+* `pip install flask-login` and * `pip install flask-sqlalchemy` to install both packages on your machine
+If you have run before, you can skip to the following steps: 
 * `pipenv install flask` to create a virtual environment.
-* `pipenv shell` to enter the virtual environment.
+* `pipenv shell` to enter the virtpipepipenv ual environment.
 * `pipenv install` to install everything in the Pipfile into your virtual environment
 * `flask run` to run the app locally. 
 Visit the given address to access the app.
