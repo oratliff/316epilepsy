@@ -34,3 +34,5 @@ Visit the given address to access the app.
 ## How to run on Heroku
 Heroku is setup to deploy the app automatically for every push to master in the git repo. On Heroku, click "Open App" or visit https://epilepsycenter.herokuapp.com/ when the build has succeeded and the app has been deployed (in latest activity under "Overview"). If there is an error, view the logs under "More" next to "Open App."
 
+## How to view database and test basic queries on pgweb
+Navigate to the scheme tab of the landing page and enter the server URL. You can get the server URL by going to the main app overview/dashboard on Heroku, then choosing the settings tab, then View Credentials. 

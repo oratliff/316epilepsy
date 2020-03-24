@@ -1,4 +1,4 @@
-from flask import Flask 
+from flask import Flask
 
 from .commands import create_tables
 from .extensions import db, login_manager
