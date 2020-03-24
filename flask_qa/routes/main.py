@@ -3,7 +3,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import check_password_hash
 
 from flask_qa.extensions import db
-from flask_qa.models import Question, User
+from flask_qa.models import Doctor
 
 main = Blueprint('main', __name__)
 

@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash
 from .extensions import db
 from datetime import datetime
 
-class Doctors(UserMixin, db.Model):
+class Doctor(UserMixin, db.Model):
     __tablename__ = 'doctors'
     doctorid = db.Column('doctor_id',
                         db.Integer(),
