@@ -28,7 +28,7 @@ class Patients(db.Model):
                         primary_key=True)
     name_first = db.Column('name_first', db.String(20))
     name_last = db.Column('name_last', db.String(20))
-    dob = db.Column(db.DateTime)                       #TODO: check if this data type throws errors for handling dates
+    dob = db.Column('dob', db.DateTime)                       #TODO: check if this data type throws errors for handling dates
     sex = db.Column('sex', db.String(6))
     phone = db.Column('phone', db.Integer())
     email = db.Column('email', db.String(50))
@@ -45,7 +45,7 @@ class Visits(db.Model):
     doctorid = db.relationship('doctors',
                                 db.ForeignKey('doctorid'),
                                 uselist = False)                #one to one relationship
-    date = db.Column(db.DateTime)               #TODO: change this Date datatype if needed from above TODO
+    date = db.Column('visit_date', db.DateTime)               #TODO: change this Date datatype if needed from above TODO
     weight = db.Column('weight', db.Float())
     height = db.Column('height', db.Float())
     patient_history = db.Column('patient_history', db.String(500))

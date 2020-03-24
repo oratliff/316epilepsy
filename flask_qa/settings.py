@@ -13,7 +13,8 @@ POSTGRES = {
 #if using local db:
 #SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
 #if using production/pgadmin db:
-SQLALCHEMY_DATABASE_URI = "postgresql://%(user)s:%(pw)s@%(host)s:%(port)s/%(db)s"
+SQLALCHEMY_DATABASE_URI = 'postgresql://%(user)s:\
+%(pw)s@%(host)s:%(port)s/%(db)s' % POSTGRES
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 SQLALCHEMY_TRACK_MODIFICATIONS = False
