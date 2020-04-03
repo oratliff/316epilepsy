@@ -3,7 +3,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import check_password_hash
 
 from flask_qa.extensions import db
-from flask_qa.models import Question, User
+from flask_qa.models import User
 
 main = Blueprint('main', __name__)
 
@@ -37,8 +37,6 @@ def register():
         user = User(
             name=name, 
             unhashed_password=unhashed_password,
-            admin=False,  
-            expert=False
         )
 
         db.session.add(user)
@@ -51,47 +49,11 @@ def register():
 @main.route('/home', methods=['GET', 'POST'])
 @login_required
 def home():
-    # if request.method == 'POST':
-    #     question = request.form['question']
-    #     expert = request.form['expert']
-
-    #     question = Question(
-    #         question=question, 
-    #         expert_id=expert, 
-    #         asked_by_id=current_user.id
-    #     )
-
-    #     db.session.add(question)
-    #     db.session.commit()
-
-    #     return redirect(url_for('main.login'))
-
-    # experts = User.query.filter_by(expert=True).all()
-
-    # context = {
-    #     'experts' : experts
-    # }
-
     return render_template('home.html')
 
 @main.route('/patients', methods=['GET', 'POST'])
 @login_required
 def patients():
-    # if not current_user.expert:
-    #     return redirect(url_for('main.login'))
-
-    # question = Question.query.get_or_404(question_id)
-
-    # if request.method == 'POST':
-    #     question.answer = request.form['answer']
-    #     db.session.commit()
-
-    #     return redirect(url_for('main.unanswered'))
-
-    # context = {
-    #     'question' : question
-    # }
-
     return render_template('patients.html')
 
 @main.route('/logout')
