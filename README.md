@@ -34,3 +34,5 @@ Visit the given address to access the app.
 ## How to run on Heroku
 Heroku is setup to deploy the app automatically for every push to master in the git repo. On Heroku, click "Open App" or visit https://epilepsycenter.herokuapp.com/ when the build has succeeded and the app has been deployed (in latest activity under "Overview"). If there is an error, view the logs under "More" next to "Open App."
 
+## Loading Production Dataset
+Since we do not have a production dataset for reasons listed on the progess report, you cannot upload any data. 
