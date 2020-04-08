@@ -17,6 +17,7 @@ fw = open('createData.sql','w')
 numDoctors = 10
 numPatients = 50
 maxVisits = 5
+maxMedication = 3
 
 # Doctor
 for id in range (10, 10 + numDoctors):
@@ -39,8 +40,41 @@ for id in range (0, numPatients):
                  + str(2560712) + str(phone) + "');\n")
     fw.write(statement)
 
-visitId = 0
+# Medication
+med_names = ["hydrocodone/acetaminophen", "Simvastatin ", "Lisinopril", "Levothyroxine",
+             "Azithromycin", "Metformin", "Lipitor", "Amlodipine",
+             "Amoxicillin", "Hydrochlorothiazide"]
+
+doses = ["25 mg", "50 mg", "75 mg", "100 mg", "1 pill", "2 pills", "50 mL", 
+         "10 mL",   "20 mg / Kg", "5 mg / Kg"]
+
+frequency = ["once a day", "twice a day", "as required", "hourly", "every morning", 
+             "every night", "with lunch", "weekly", "every 4 hours", "every 8 hours"]
+medid = 0
+for patientid in range(0, numPatients):
+    for med in range(0, math.ceil(random.random() * maxMedication)):
+        start = fake_data.date_this_century()
+        end = "NULL"
+        if(random.random() > 0.5):
+            end = fake_data.date_between_dates(date_start=start, date_end=None).strftime('%Y-%m-%d')
+        start = start.strftime('%Y-%m-%d')
+        statement = ("INSERT INTO public.\"Medication\" VALUES (" + str(medid)
+                     + ", " + str(patientid)
+                     + ", '" + random.choice(med_names)
+                     + "', '" + random.choice(doses)
+                     + "', '" + random.choice(frequency)
+                     + "', '" + start
+                     + "', ")
+        if(end == "NULL"):
+            statement = statement + end + ");\n"
+        else:
+            statement = statement + "'" + end + "');\n"
+        medid += 1
+        fw.write(statement)
+
+
 # Visit
+visitId = 0
 for patientid in range(0, numPatients):
     for id in range(0, math.ceil(random.random() * maxVisits)):
         statement = ("INSERT INTO public.\"Visits\" Values (" + str(visitId) + ", '"
@@ -51,10 +85,7 @@ for patientid in range(0, numPatients):
                      + fake_data.text()[0:500] + "', '" #diagnostics
                      + fake_data.text()[0:500] + "', '" #comorbidities
                      + fake_data.text()[0:1000] + "', '" #previous_treatment
-                     + fake_data.text()[0:500] + "', '" #current_treatment
-                     + fake_data.text()[0:250] + "', '" #current_medication
-                     + fake_data.text()[0:250] + "', '" #current_med_dose
-                     + fake_data.text()[0:500] + "', " #current_med_freq
+                     + fake_data.text()[0:500] + "', " #current_treatment
                      + str(10 + math.floor(random.random() * numDoctors)) + ", " #doctorid
                      + str(math.floor(random.random() * numPatients)) + ");\n") #patientid
         visitId += 1
