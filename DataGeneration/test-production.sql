@@ -27,10 +27,15 @@ SELECT *
 FROM public."Patients"
 WHERE patientid = 1;
 
---Get Current Medication
-SELECT current_med_dose, current_med_freq, current_medication
-FROM public."Visits"
-WHERE patientid = 1 AND visitid = (SELECT MAX(visitid) FROM public."Visits" WHERE patientid = 1)
+--Get All Patient Medication
+SELECT medication, dose, frequency, startdate, enddate
+FROM public."Medication"
+WHERE patientid = 1;
+
+--Get Current Patient Medication
+SELECT medication, dose, frequency, startdate, enddate
+FROM public."Medication"
+WHERE patientid = 1 AND endDate IS NULL
 
 --Get Patient History
 SELECT patient_history
@@ -38,5 +43,6 @@ FROM public."Visits"
 WHERE patientid = 1;
 
 --Find all current medications
-SELECT current_medication
-FROM public."Visits";
+SELECT DISTINCT medication
+FROM public."Medication"
+WHERE endDate IS NULL;

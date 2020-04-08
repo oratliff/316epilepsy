@@ -29,8 +29,8 @@ CREATE TABLE public."Medication"
     medication character varying(100) COLLATE pg_catalog."default" NOT NULL,
     dose character varying(50) COLLATE pg_catalog."default",
     frequency character varying(50) COLLATE pg_catalog."default",
-    start date,
-    "end" date,
+    startDate date,
+    endDate date,
     CONSTRAINT "Medication_pkey" PRIMARY KEY (medid),
     CONSTRAINT "hasMeds" FOREIGN KEY (patientid)
         REFERENCES public."Patients" (patientid) MATCH SIMPLE
