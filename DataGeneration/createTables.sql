@@ -22,6 +22,22 @@ CREATE TABLE public."Patients"
     CONSTRAINT "Patients_pkey" PRIMARY KEY (patientid)
 )
 
+CREATE TABLE public."Medication"
+(
+    medid integer NOT NULL,
+    patientid integer NOT NULL,
+    medication character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    dose character varying(50) COLLATE pg_catalog."default",
+    frequency character varying(50) COLLATE pg_catalog."default",
+    start date,
+    "end" date,
+    CONSTRAINT "Medication_pkey" PRIMARY KEY (medid),
+    CONSTRAINT "hasMeds" FOREIGN KEY (patientid)
+        REFERENCES public."Patients" (patientid) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
 CREATE TABLE public."Visits"
 (
     visitid integer NOT NULL,
@@ -33,9 +49,6 @@ CREATE TABLE public."Visits"
     comorbidities character varying(500) COLLATE pg_catalog."default",
     previous_treatment character varying(1000) COLLATE pg_catalog."default",
     current_treatment character varying(500) COLLATE pg_catalog."default",
-    current_medication character varying(250) COLLATE pg_catalog."default",
-    current_med_dose character varying(250) COLLATE pg_catalog."default",
-    current_med_freq character varying(500) COLLATE pg_catalog."default",
     doctorid integer NOT NULL,
     patientid integer NOT NULL,
     CONSTRAINT "Visits_pkey" PRIMARY KEY (visitid),
