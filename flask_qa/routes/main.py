@@ -13,7 +13,7 @@ def login():
         name = request.form['name']
         password = request.form['password']
 
-        user = User.query.filter_by(name=name).first()
+        user = Doctors.query.filter_by(name=name).first()
 
         error_message = ''
 
