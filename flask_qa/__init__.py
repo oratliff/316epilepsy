@@ -18,7 +18,7 @@ def create_app(config_file='settings.py'):
 
     @login_manager.user_loader
     def load_user(user_id):
-        return Doctors.query.get("Doctors_doctorid")
+        return Doctors.query.get(doctor_id)
 
     app.register_blueprint(main)
 

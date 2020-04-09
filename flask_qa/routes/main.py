@@ -13,7 +13,7 @@ def login():
         name = request.form['name']
         password = request.form['password']
 
-        doctor = Doctors.query.filter_by(name=name).first()
+        doctor = Doctors.query.filter_by(username=name).first()
 
         error_message = ''
 
@@ -35,7 +35,7 @@ def register():
         unhashed_password = request.form['password']
 
         doctor = Doctors(
-            name=name, 
+            username=name, 
             unhashed_password=unhashed_password,
         )
 
