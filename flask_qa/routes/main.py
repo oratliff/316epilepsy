@@ -3,7 +3,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import check_password_hash
 
 from flask_qa.extensions import db
-from flask_qa.models import User
+from flask_qa.models import Doctors
 
 main = Blueprint('main', __name__)
 
@@ -13,17 +13,17 @@ def login():
         name = request.form['name']
         password = request.form['password']
 
-        user = Doctors.query.filter_by(name=name).first()
+        doctor = Doctors.query.filter_by(name=name).first()
 
         error_message = ''
 
-        if not user or not check_password_hash(user.password, password):
+        if not doctor or not check_password_hash(doctor.password, password):
             error_message = 'Could not login. Please try again or register.'
             flash(error_message)
             return redirect(url_for('main.login'))
 
         if not error_message:
-            login_user(user)
+            login_user(doctor)
             return redirect(url_for('main.home'))
 
     return render_template('login.html')
@@ -34,12 +34,12 @@ def register():
         name = request.form['name']
         unhashed_password = request.form['password']
 
-        user = User(
+        doctor = Doctors(
             name=name, 
             unhashed_password=unhashed_password,
         )
 
-        db.session.add(user)
+        db.session.add(doctor)
         db.session.commit()
 
         return redirect(url_for('main.login'))
