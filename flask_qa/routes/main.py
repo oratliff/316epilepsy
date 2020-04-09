@@ -3,7 +3,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import check_password_hash
 
 from flask_qa.extensions import db
-from flask_qa.models import Doctors
+from flask_qa.models import doctors
 
 main = Blueprint('main', __name__)
 
@@ -13,7 +13,7 @@ def login():
         name = request.form['name']
         password = request.form['password']
 
-        doctor = Doctors.query.filter_by(username=name).first()
+        doctor = doctors.query.filter_by(username=name).first()
 
         error_message = ''
 
@@ -34,7 +34,7 @@ def register():
         name = request.form['name']
         unhashed_password = request.form['password']
 
-        doctor = Doctors(
+        doctor = doctors(
             username=name, 
             unhashed_password=unhashed_password,
         )

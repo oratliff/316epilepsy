@@ -2,7 +2,7 @@ from flask import Flask
 
 from .commands import create_tables
 from .extensions import db, login_manager
-from .models import Doctors
+from .models import doctors
 from .routes.main import main
 
 def create_app(config_file='settings.py'):
@@ -18,7 +18,7 @@ def create_app(config_file='settings.py'):
 
     @login_manager.user_loader
     def load_user(user_id):
-        return Doctors.query.get(doctors_id)
+        return doctors.query.get("doctors_id")
 
     app.register_blueprint(main)
 
