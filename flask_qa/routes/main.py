@@ -3,7 +3,8 @@ from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import check_password_hash
 
 from flask_qa.extensions import db
-from flask_qa.models import Doctor
+from flask_qa.models import doctors
+from flask_qa.models import patients
 
 main = Blueprint('main', __name__)
 
@@ -13,17 +14,17 @@ def login():
         name = request.form['name']
         password = request.form['password']
 
-        user = User.query.filter_by(name=name).first()
+        doctor = doctors.query.filter_by(username=name).first()
 
         error_message = ''
 
-        if not user or not check_password_hash(user.password, password):
+        if not doctor or not check_password_hash(doctor.password, password):
             error_message = 'Could not login. Please try again or register.'
             flash(error_message)
             return redirect(url_for('main.login'))
 
         if not error_message:
-            login_user(user)
+            login_user(doctor)
             return redirect(url_for('main.home'))
 
     return render_template('login.html')
@@ -34,15 +35,26 @@ def register():
         name = request.form['name']
         unhashed_password = request.form['password']
 
-        user = User(
-            name=name, 
+        doctor = doctors(
+            username=name, 
             unhashed_password=unhashed_password,
-            admin=False,  
-            expert=False
         )
 
-        db.session.add(user)
+        db.session.add(doctor)
         db.session.commit()
+
+        patient = patients(
+
+            name_first = name,
+
+            name_last = unhashed_password,
+
+        )
+
+
+        db.session.add(patient)
+
+        db.session.commit()
 
         return redirect(url_for('main.login'))
 
@@ -51,47 +63,11 @@ def register():
 @main.route('/home', methods=['GET', 'POST'])
 @login_required
 def home():
-    # if request.method == 'POST':
-    #     question = request.form['question']
-    #     expert = request.form['expert']
-
-    #     question = Question(
-    #         question=question, 
-    #         expert_id=expert, 
-    #         asked_by_id=current_user.id
-    #     )
-
-    #     db.session.add(question)
-    #     db.session.commit()
-
-    #     return redirect(url_for('main.login'))
-
-    # experts = User.query.filter_by(expert=True).all()
-
-    # context = {
-    #     'experts' : experts
-    # }
-
     return render_template('home.html')
 
 @main.route('/patients', methods=['GET', 'POST'])
 @login_required
 def patients():
-    # if not current_user.expert:
-    #     return redirect(url_for('main.login'))
-
-    # question = Question.query.get_or_404(question_id)
-
-    # if request.method == 'POST':
-    #     question.answer = request.form['answer']
-    #     db.session.commit()
-
-    #     return redirect(url_for('main.unanswered'))
-
-    # context = {
-    #     'question' : question
-    # }
-
     return render_template('patients.html')
 
 @main.route('/logout')

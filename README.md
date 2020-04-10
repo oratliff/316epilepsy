@@ -34,5 +34,9 @@ Visit the given address to access the app.
 ## How to run on Heroku
 Heroku is setup to deploy the app automatically for every push to master in the git repo. On Heroku, click "Open App" or visit https://epilepsycenter.herokuapp.com/ when the build has succeeded and the app has been deployed (in latest activity under "Overview"). If there is an error, view the logs under "More" next to "Open App."
 
-## How to view database and test basic queries on pgweb
-Navigate to the scheme tab of the landing page and enter the server URL. You can get the server URL by going to the main app overview/dashboard on Heroku, then choosing the settings tab, then View Credentials. 
+## Loading Production Dataset
+In order to generate the production dataset, run the createData.py file. This generatres a set of INSERT statements in a file called 
+createData.sql. This file is random each time. To load it, go into the pgAdmin gui, and go to the query tool for the database. Load the file 
+using the open file button, and run it to add in the data. A copy of our database can be made using the createTables.sql file in the data 
+generation folder in the query tool section. If you want to test more or less data, you can edit the number of doctors, number of patients, 
+and the max number of visits in the createData.py file. 
