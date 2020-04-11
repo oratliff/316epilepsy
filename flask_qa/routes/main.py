@@ -35,28 +35,24 @@ def register():
         name = request.form['name']
         unhashed_password = request.form['password']
 
-        doctor = doctors(
-            username=name, 
-            unhashed_password=unhashed_password,
-        )
+        doctor = doctors.query.filter_by(username=name).first()
+        reg_error = ''
 
-        db.session.add(doctor)
-        db.session.commit()
+        if not doctor:
+            doctor = doctors(
+                username=name,
+                unhashed_password=unhashed_password,
+            )
 
-        patient = patients(
-
-            name_first = name,
-
-            name_last = unhashed_password,
-
-        )
+            db.session.add(doctor)
+            db.session.commit()
+            return redirect(url_for('main.login'))
 
 
-        db.session.add(patient)
-
-        db.session.commit()
-
-        return redirect(url_for('main.login'))
+        if not reg_error:
+            reg_error = 'User already registered. Login please.'
+            flash(reg_error)
+            return redirect(url_for('main.register'))
 
     return render_template('register.html')
 
@@ -64,6 +60,36 @@ def register():
 @login_required
 def home():
     return render_template('home.html')
+
+@main.route('/addpatients', methods=['GET', 'POST'])
+def addpatients():
+    if request.method == 'POST':
+        firstname = request.form['name_first']
+        lastname = request.form['name_last']
+        dateob = request.form['dob']
+        email_input = request.form['email']
+        address_input = request.form['address']
+        phone_number = request.form['pnumber']
+
+        patient = patients(
+            name_first = firstname,
+            name_last = lastname,
+            dob = dateob,
+            email = email_input,
+            address = address_input,
+            phone = phone_number,
+
+        )
+
+        db.session.add(patient)
+        db.session.commit()
+
+        flash("Patient added!")
+
+
+        return redirect(url_for('main.addpatients'))
+
+    return render_template('addpatients.html')
 
 @main.route('/patients', methods=['GET', 'POST'])
 @login_required

@@ -1,7 +1,7 @@
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash
 
-from .extensions import db 
+from .extensions import db
 
 class doctors(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -16,8 +16,12 @@ class doctors(UserMixin, db.Model):
     def unhashed_password(self, unhashed_password):
         self.password = generate_password_hash(unhashed_password)
 
-class patients(UserMixin, db.Model):
+class patients(db.Model):
 
     id = db.Column(db.Integer, primary_key = True)
     name_first = db.Column(db.String(50))
     name_last = db.Column(db.String(50))
+    dob = db.Column(db.String(50))
+    email = db.Column(db.String(50))
+    address = db.Column(db.String(50))
+    phone = db.Column(db.String(50))
