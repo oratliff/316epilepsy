@@ -26,13 +26,10 @@
           <ul class="nav navbar-nav">
             {% if not current_user.is_authenticated %}
             <li><a href="{{ url_for('main.login') }}">Login</a></li>
-            <li><a href="{{ url_for('main.addpatients') }}">Add Patient</a></li>
-
-<!--             <li><a href="{{ url_for('main.register') }}">Patient Registration</a></li> TODO: replace with  patient registration-->
+            <li><a href="{{ url_for('main.registerpatient') }}">Register Patient</a></li>
             {% endif %}
             {% if current_user.is_authenticated %}
             <li><a href="{{ url_for('main.home') }}">Home</a></li>
-            <li><a href="{{ url_for('main.addpatients') }}">Add Patient</a></li>
             <li><a href="{{ url_for('main.patients') }}">Patients</a></li>
             <li><a href="{{ url_for('main.logout') }}">Logout</a></li>
             {% endif %}

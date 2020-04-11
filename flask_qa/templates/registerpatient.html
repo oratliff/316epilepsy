@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
-{% block title %}AddPatients{% endblock %}
+{% block title %}RegisterPatient{% endblock %}
 
 {% block content %}
       <div class="page-header">
-        <h1>Enter Your Information Below</h1>
+        <h1>Patient Registration</h1><br><p>Welcome to the MBarara Epilepsy Center! Please fill out the following form to register.</p>
       </div>
         <div class="row">
           <div class="col-lg-12">
@@ -13,7 +13,7 @@
               {% endif %}
             {% endwith %}
             <div class="well bs-component">
-              <form class="form-horizontal" method="POST" action="{{ url_for('main.addpatients') }}">
+              <form class="form-horizontal" method="POST" action="{{ url_for('main.registerpatient') }}">
                 <fieldset>
                   <div class="form-group">
                     <label for="inputName" class="col-lg-2 control-label">First Name</label>
@@ -54,7 +54,7 @@
                   <div class="form-group">
                     <label for="inputPassword" class="col-lg-2 control-label">Phone Number</label>
                     <div class="col-lg-10">
-                      <input type="text" class="form-control" name="pnumber" id="pnumber" placeholder="Phone Number">
+                      <input type="text" class="form-control" name="phone" id="phone" placeholder="Phone Number">
                     </div>
                   </div>
 
