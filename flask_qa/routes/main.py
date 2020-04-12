@@ -70,14 +70,17 @@ def registerpatient():
         address = request.form['address']
         phone = request.form['phone']
 
-        patient = patients(
-            name_first=name_first,
-            name_last=name_last,
-            dob=dob,
-            email=email,
-            address=address,
-            phone=phone,
-        )
+        patient = patients.query.filter_by(email=email).first()
+
+        if not patient:
+            patient = patients(
+                name_first=name_first,
+                name_last=name_last,
+                dob=dob,
+                email=email,
+                address=address,
+                phone=phone,
+                )
 
         db.session.add(patient)
         db.session.commit()
@@ -89,10 +92,10 @@ def registerpatient():
 
     return render_template('registerpatient.html')
 
-@main.route('/patients', methods=['GET', 'POST'])
+@main.route('/patientsearch', methods=['GET', 'POST'])
 @login_required
-def patients():
-    return render_template('patients.html')
+def patientsearch():
+    return render_template('patientsearch.html')
 
 @main.route('/logout')
 def logout():
