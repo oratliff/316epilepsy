@@ -35,23 +35,19 @@ def registerdoctor():
         unhashed_password = request.form['password']
 
         doctor = doctors.query.filter_by(username=name).first()
-        reg_error = ''
 
         if not doctor:
             doctor = doctors(
                 username=name,
                 unhashed_password=unhashed_password,
             )
+        else: 
+            flash('User already registered. Login please.')
+            return redirect(url_for('main.registerdoctor'))
 
         db.session.add(doctor)
         db.session.commit()
         return redirect(url_for('main.login'))
-
-
-        if not reg_error:
-            reg_error = 'User already registered. Login please.'
-            flash(reg_error)
-            return redirect(url_for('main.registerdoctor'))
 
     return render_template('registerdoctor.html')
 
