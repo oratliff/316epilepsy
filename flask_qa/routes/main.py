@@ -75,6 +75,7 @@ def registerpatient():
 
         if not patient:
             patient = patients(
+                id=100,
                 name_first=name_first,
                 name_last=name_last,
                 dob=dob,
