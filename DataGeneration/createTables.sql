@@ -2,45 +2,45 @@
 
 -- DROP TABLE public."Doctors";
 
-CREATE TABLE public."Doctors"
+CREATE TABLE public.doctors
 (
-    doctorid integer NOT NULL DEFAULT nextval('user_id_seq'::regclass),
+    id integer NOT NULL DEFAULT nextval('user_id_seq'::regclass),
     username character varying(50) COLLATE pg_catalog."default",
     password character varying(100) COLLATE pg_catalog."default",
-    CONSTRAINT user_pkey PRIMARY KEY (doctorid)
+    CONSTRAINT user_pkey PRIMARY KEY (id)
 )
 
-CREATE TABLE public."Patients"
+CREATE TABLE public.patients
 (
-    patientid integer NOT NULL,
+    id integer NOT NULL,
     name_first character varying(35) COLLATE pg_catalog."default" NOT NULL,
     name_last character varying(35) COLLATE pg_catalog."default" NOT NULL,
     dob date NOT NULL,
     email character varying(254) COLLATE pg_catalog."default",
     address character varying(95) COLLATE pg_catalog."default",
     phone character varying(13) COLLATE pg_catalog."default",
-    CONSTRAINT "Patients_pkey" PRIMARY KEY (patientid)
+    CONSTRAINT "Patients_pkey" PRIMARY KEY (id)
 )
 
-CREATE TABLE public."Medication"
+CREATE TABLE public.medication
 (
-    medid integer NOT NULL,
+    id integer NOT NULL,
     patientid integer NOT NULL,
     medication character varying(100) COLLATE pg_catalog."default" NOT NULL,
     dose character varying(50) COLLATE pg_catalog."default",
     frequency character varying(50) COLLATE pg_catalog."default",
-    startDate date,
-    endDate date,
-    CONSTRAINT "Medication_pkey" PRIMARY KEY (medid),
+    startdate date,
+    enddate date,
+    CONSTRAINT "Medication_pkey" PRIMARY KEY (id),
     CONSTRAINT "hasMeds" FOREIGN KEY (patientid)
-        REFERENCES public."Patients" (patientid) MATCH SIMPLE
+        REFERENCES public.patients (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
 
-CREATE TABLE public."Visits"
+CREATE TABLE public.visits
 (
-    visitid integer NOT NULL,
+    id integer NOT NULL,
     weight integer,
     height integer,
     patient_history character varying(1000) COLLATE pg_catalog."default",
@@ -51,13 +51,13 @@ CREATE TABLE public."Visits"
     current_treatment character varying(500) COLLATE pg_catalog."default",
     doctorid integer NOT NULL,
     patientid integer NOT NULL,
-    CONSTRAINT "Visits_pkey" PRIMARY KEY (visitid),
+    CONSTRAINT "Visits_pkey" PRIMARY KEY (id),
     CONSTRAINT "forPatient" FOREIGN KEY (patientid)
-        REFERENCES public."Patients" (patientid) MATCH SIMPLE
+        REFERENCES public.patients (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
     CONSTRAINT "withDoctor" FOREIGN KEY (doctorid)
-        REFERENCES public."Doctors" (doctorid) MATCH SIMPLE
+        REFERENCES public.doctors (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
