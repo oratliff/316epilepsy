@@ -70,7 +70,12 @@ def registerpatient():
         address = request.form['address']
         phone = request.form['phone']
 
-        patient = patients.query.filter_by(email=email).first()
+        patient = patients.query\
+        .filter_by(email=email)\
+        .filter_by(name_first=name_first)\
+        .filter_by(name_last=name_last)\
+        .first()
+        reg_error = ''
 
         if not patient:
             patient = patients(
@@ -85,9 +90,12 @@ def registerpatient():
         db.session.add(patient)
         db.session.commit()
 
+        if not reg_error:
+            reg_error = 'Patient has already been registered. Please return the device.'
+            flash(reg_error)
+            return redirect(url_for('main.registerpatient')) 
+
         flash("Patient successfully registered! Please return the device.")
-
-
         return redirect(url_for('main.registerpatient'))
 
     return render_template('registerpatient.html')
