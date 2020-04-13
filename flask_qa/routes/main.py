@@ -41,7 +41,7 @@ def registerdoctor():
             db.session.add(doctor)
             db.session.commit()
             return redirect(url_for('main.login'))
-            
+
         else: 
             flash('User already registered. Login please.')
             return redirect(url_for('main.registerdoctor'))
@@ -75,7 +75,6 @@ def registerpatient():
 
         else:
             patient = patients(
-                id=100,
                 name_first=name_first,
                 name_last=name_last,
                 dob=dob,
