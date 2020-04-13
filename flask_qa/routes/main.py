@@ -75,6 +75,7 @@ def registerpatient():
 
         else:
             patient = patients(
+                id,
                 name_first=name_first,
                 name_last=name_last,
                 dob=dob,
