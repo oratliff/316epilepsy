@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import check_password_hash
+from sqlalchemy import func
 
 from flask_qa.extensions import db
 from flask_qa.models import doctors, patients
@@ -31,7 +32,8 @@ def registerdoctor():
         name = request.form['name']
         unhashed_password = request.form['password']
 
-        doctor = doctors.query.filter_by(username=name).first()
+        doctor = doctors.query\
+        .filter(func.lower(doctors.username)==func.lower(name)).first()
 
         if not doctor:
             doctor = doctors(
@@ -64,9 +66,9 @@ def registerpatient():
         phone = request.form['phone']
 
         patient = patients.query\
-        .filter_by(email=email)\
-        .filter_by(name_first=name_first)\
-        .filter_by(name_last=name_last)\
+        .filter(func.lower(patients.email) == func.lower(email))\
+        .filter(func.lower(patients.name_first) == func.lower(name_first))\
+        .filter(func.lower(patients.name_last) == func.lower(name_last))\
         .first()
         
         if patient:
