@@ -2,7 +2,7 @@ from flask import Flask
 
 from .commands import create_tables
 from .extensions import db, login_manager
-from .models import doctors, patients
+from .models import doctors
 from .routes.main import main
 
 def create_app(config_file='settings.py'):

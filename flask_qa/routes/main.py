@@ -74,8 +74,7 @@ def registerpatient():
             return redirect(url_for('main.registerpatient')) 
 
         else:
-            patient = patients(
-                id,
+            patient_obj = patients(
                 name_first=name_first,
                 name_last=name_last,
                 dob=dob,
@@ -84,7 +83,7 @@ def registerpatient():
                 phone=phone,
                 )
 
-            db.session.add(patient)
+            db.session.add(patient_obj)
             db.session.commit()
 
             flash("Patient successfully registered! Please return the device.")
