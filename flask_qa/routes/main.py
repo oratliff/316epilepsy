@@ -15,14 +15,11 @@ def login():
 
         doctor = doctors.query.filter_by(username=name).first()
 
-        error_message = ''
-
         if not doctor or not check_password_hash(doctor.password, password):
-            error_message = 'Could not login. Please try again or register.'
-            flash(error_message)
+            flash('Could not login. Please try again or register.')
             return redirect(url_for('main.login'))
 
-        if not error_message:
+        else:
             login_user(doctor)
             return redirect(url_for('main.home'))
 
@@ -41,13 +38,13 @@ def registerdoctor():
                 username=name,
                 unhashed_password=unhashed_password,
             )
+            db.session.add(doctor)
+            db.session.commit()
+            return redirect(url_for('main.login'))
+            
         else: 
             flash('User already registered. Login please.')
             return redirect(url_for('main.registerdoctor'))
-
-        db.session.add(doctor)
-        db.session.commit()
-        return redirect(url_for('main.login'))
 
     return render_template('registerdoctor.html')
 
@@ -71,9 +68,12 @@ def registerpatient():
         .filter_by(name_first=name_first)\
         .filter_by(name_last=name_last)\
         .first()
-        reg_error = ''
+        
+        if patient:
+            flash('Patient has already been registered. Please return the device.')
+            return redirect(url_for('main.registerpatient')) 
 
-        if not patient:
+        else:
             patient = patients(
                 id=100,
                 name_first=name_first,
@@ -84,16 +84,11 @@ def registerpatient():
                 phone=phone,
                 )
 
-        db.session.add(patient)
-        db.session.commit()
+            db.session.add(patient)
+            db.session.commit()
 
-        if not reg_error:
-            reg_error = 'Patient has already been registered. Please return the device.'
-            flash(reg_error)
-            return redirect(url_for('main.registerpatient')) 
-
-        flash("Patient successfully registered! Please return the device.")
-        return redirect(url_for('main.registerpatient'))
+            flash("Patient successfully registered! Please return the device.")
+            return redirect(url_for('main.registerpatient'))
 
     return render_template('registerpatient.html')
 
