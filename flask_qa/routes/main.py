@@ -1,9 +1,10 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import current_user, login_required, login_user, logout_user
 from werkzeug.security import check_password_hash
+from sqlalchemy import func
 
 from flask_qa.extensions import db
-from flask_qa.models import doctors
+from flask_qa.models import doctors, patients
 
 main = Blueprint('main', __name__)
 
@@ -15,46 +16,87 @@ def login():
 
         doctor = doctors.query.filter_by(username=name).first()
 
-        error_message = ''
-
         if not doctor or not check_password_hash(doctor.password, password):
-            error_message = 'Could not login. Please try again or register.'
-            flash(error_message)
+            flash('Could not login. Please try again or register.')
             return redirect(url_for('main.login'))
 
-        if not error_message:
+        else:
             login_user(doctor)
             return redirect(url_for('main.home'))
 
     return render_template('login.html')
 
-@main.route('/register', methods=['GET', 'POST'])
-def register():
+@main.route('/registerdoctor', methods=['GET', 'POST'])
+def registerdoctor():
     if request.method == 'POST':
         name = request.form['name']
         unhashed_password = request.form['password']
 
-        doctor = doctors(
-            username=name, 
-            unhashed_password=unhashed_password,
-        )
+        doctor = doctors.query\
+        .filter(func.lower(doctors.username)==func.lower(name)).first()
 
-        db.session.add(doctor)
-        db.session.commit()
+        if not doctor:
+            doctor = doctors(
+                username=name,
+                unhashed_password=unhashed_password,
+            )
+            db.session.add(doctor)
+            db.session.commit()
+            return redirect(url_for('main.login'))
 
-        return redirect(url_for('main.login'))
+        else: 
+            flash('User already registered. Login please.')
+            return redirect(url_for('main.registerdoctor'))
 
-    return render_template('register.html')
+    return render_template('registerdoctor.html')
 
 @main.route('/home', methods=['GET', 'POST'])
 @login_required
 def home():
     return render_template('home.html')
 
-@main.route('/patients', methods=['GET', 'POST'])
+@main.route('/registerpatient', methods=['GET', 'POST'])
+def registerpatient():
+    if request.method == 'POST':
+        name_first = request.form['name_first']
+        name_last = request.form['name_last']
+        dob = request.form['dob']
+        email = request.form['email']
+        address = request.form['address']
+        phone = request.form['phone']
+
+        patient = patients.query\
+        .filter(func.lower(patients.email) == func.lower(email))\
+        .filter(func.lower(patients.name_first) == func.lower(name_first))\
+        .filter(func.lower(patients.name_last) == func.lower(name_last))\
+        .first()
+        
+        if patient:
+            flash('Patient has already been registered. Please return the device.')
+            return redirect(url_for('main.registerpatient')) 
+
+        else:
+            patient_obj = patients(
+                name_first=name_first,
+                name_last=name_last,
+                dob=dob,
+                email=email,
+                address=address,
+                phone=phone,
+                )
+
+            db.session.add(patient_obj)
+            db.session.commit()
+
+            flash("Patient successfully registered! Please return the device.")
+            return redirect(url_for('main.registerpatient'))
+
+    return render_template('registerpatient.html')
+
+@main.route('/patientsearch', methods=['GET', 'POST'])
 @login_required
-def patients():
-    return render_template('patients.html')
+def patientsearch():
+    return render_template('patientsearch.html')
 
 @main.route('/logout')
 def logout():
