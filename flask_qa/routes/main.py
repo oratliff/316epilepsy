@@ -96,7 +96,6 @@ def registerpatient():
 @main.route('/patientsearch', methods=['GET', 'POST'])
 @login_required
 def patientsearch():
-
     patientsearch = patients.query.all()
 
     context = {
