@@ -2,18 +2,49 @@
 {% block title %}Patients{% endblock %}
 
 {% block content %}
+<style>
+table,
+td {
+    background-color: #EDF4FF;
+    color:#333;
+    font-size:15px;
+    padding: 8px;
+    padding-left:15px;
+}
+.heading {
+    background-color:#BCCEEA;
+}
+
+</style>
 <div class="page-header">
         <h1>Patients</h1>
       </div>
       <div class="row">
-<!--         <div class="col-lg-12">
-          <div class="list-group">
-            {% for user in users %}
-              <a href="{{ url_for('main.promote', user_id=user.id) }}" class="list-group-item {% if user.expert %}active{% endif %}">
-                <h4 class="list-group-item-heading">{{ user.name }}</h4>
-              </a>
-            {% endfor %}
-          </div> -->
+        <div class="col-lg-12">
+          <table class="col-lg-12">
+            <thead>
+              <tr>
+                <th colspan="3"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="heading"><b>Last</b></td>
+                <td class="heading"><b>First</b></td>
+                <td class="heading"><b>DOB</b></td>
+                <td class="heading"></td>
+              </tr>
+              {% for patient in patients %}
+                  <tr>
+                    <td>{{patient.name_last}}</td>
+                    <td>{{patient.name_first}}</td>
+                    <td>{{patient.dob}}</td>
+                    <td>Medical Info</td>
+                  </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          </div>
         </div><!-- /.col-lg-12 -->
       </div>
 {% endblock %}

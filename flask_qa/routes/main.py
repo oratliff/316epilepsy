@@ -96,7 +96,13 @@ def registerpatient():
 @main.route('/patientsearch', methods=['GET', 'POST'])
 @login_required
 def patientsearch():
-    return render_template('patientsearch.html')
+
+    patientsearch = patients.query.all()
+
+    context = {
+        'patients' : patientsearch
+    }
+    return render_template('patientsearch.html', **context)
 
 @main.route('/logout')
 def logout():
