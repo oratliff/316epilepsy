@@ -15,7 +15,7 @@ import math
 fw = open('createData.sql','w')
 
 numDoctors = 10
-numPatients = 50
+numPatients = 100
 maxVisits = 5
 maxMedication = 3
 
@@ -23,7 +23,7 @@ maxMedication = 3
 for id in range (10, 10 + numDoctors):
     phrase = fake_data.word()
     password = "pbkdf2:sha256:150000$" + hashlib.sha256(phrase.encode()).hexdigest()
-    statement = ("INSERT INTO public.\"Doctors\" Values (" + str(id) + ", '" + fake_data.name()
+    statement = ("INSERT INTO public.doctors Values (" + str(id) + ", '" + fake_data.name()
                  + "', '" + password + "');\n")
     fw.write(statement)
 
@@ -34,7 +34,7 @@ for id in range (0, numPatients):
              str(fake_data.random_digit()) + str(fake_data.random_digit()))
     dob = fake_data.date_of_birth()
     myDob = dob.strftime('%Y-%m-%d')
-    statement = ("INSERT INTO public.\"Patients\" Values (" + str(id) + ", '" + fake_data.first_name()
+    statement = ("INSERT INTO public.patients Values (" + str(id) + ", '" + fake_data.first_name()
                  + "', '" + fake_data.last_name() + "', '" + myDob + "', '" 
                  + fake_data.email() + "', '" + fake_data.address() + "', '"
                  + str(2560712) + str(phone) + "');\n")
@@ -58,7 +58,7 @@ for patientid in range(0, numPatients):
         if(random.random() > 0.5):
             end = fake_data.date_between_dates(date_start=start, date_end=None).strftime('%Y-%m-%d')
         start = start.strftime('%Y-%m-%d')
-        statement = ("INSERT INTO public.\"Medication\" VALUES (" + str(medid)
+        statement = ("INSERT INTO public.medication VALUES (" + str(medid)
                      + ", " + str(patientid)
                      + ", '" + random.choice(med_names)
                      + "', '" + random.choice(doses)
@@ -77,7 +77,7 @@ for patientid in range(0, numPatients):
 visitId = 0
 for patientid in range(0, numPatients):
     for id in range(0, math.ceil(random.random() * maxVisits)):
-        statement = ("INSERT INTO public.\"Visits\" Values (" + str(visitId) + ", '"
+        statement = ("INSERT INTO public.visits Values (" + str(visitId) + ", '"
                      + str(fake_data.random_int(25, 200)) + "', '"
                      + str(fake_data.random_int(1, 100)) + "', '"
                      + fake_data.text()[0:1000] + "', '" #patient history
