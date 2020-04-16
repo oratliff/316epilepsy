@@ -80,14 +80,24 @@ for patientid in range(0, numPatients):
         statement = ("INSERT INTO public.visits Values (" + str(visitId) + ", '"
                      + str(fake_data.random_int(25, 200)) + "', '"
                      + str(fake_data.random_int(1, 100)) + "', '"
-                     + fake_data.text()[0:1000] + "', '" #patient history
                      + fake_data.text()[0:500] + "', '" #symptoms
                      + fake_data.text()[0:500] + "', '" #diagnostics
                      + fake_data.text()[0:500] + "', '" #comorbidities
-                     + fake_data.text()[0:1000] + "', '" #previous_treatment
-                     + fake_data.text()[0:500] + "', " #current_treatment
+                     + fake_data.text()[0:500] + "', " #treatment
                      + str(10 + math.floor(random.random() * numDoctors)) + ", " #doctorid
-                     + str(math.floor(random.random() * numPatients)) + ");\n") #patientid
+                     + str(math.floor(random.random() * numPatients)) + ", '" #patientid
+                     + fake_data.text()[0:250] + "', '" #clinical_progress
+                     + fake_data.text()[0:500] + "');\n") #support_services
         visitId += 1
         fw.write(statement)
+
+# History
+historyId = 0
+for patientid in range(0, numPatients):
+    statement = ("INSERT INTO public.history Values (" + str(historyId) + ", "
+                 + str(patientid) + ", '"
+                 + fake_data.text()[0:1500] + "', '" #history
+                 + fake_data.text()[0:1500] + "');\n") #treatment
+    historyId += 1
+    fw.write(statement)
 fw.close()
