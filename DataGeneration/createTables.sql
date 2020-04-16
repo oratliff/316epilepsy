@@ -10,6 +10,18 @@ CREATE TABLE public.doctors
     CONSTRAINT user_pkey PRIMARY KEY (id)
 )
 
+CREATE TABLE public.history
+(
+    id integer NOT NULL DEFAULT nextval('history_id_seq'::regclass),
+    patientid integer NOT NULL,
+    history character varying(1500) COLLATE pg_catalog."default",
+    treatment character varying(1500) COLLATE pg_catalog."default",
+    CONSTRAINT "hasHistory" FOREIGN KEY (patientid)
+        REFERENCES public.patients (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
 CREATE TABLE public.patients
 (
     id integer NOT NULL,
@@ -51,11 +63,9 @@ CREATE TABLE public.visits
     current_treatment character varying(500) COLLATE pg_catalog."default",
     doctorid integer NOT NULL,
     patientid integer NOT NULL,
+    clinical_progress character varying(250) COLLATE pg_catalog."default",
+    support_services character varying(500) COLLATE pg_catalog."default",
     CONSTRAINT "Visits_pkey" PRIMARY KEY (id),
-    CONSTRAINT "forPatient" FOREIGN KEY (patientid)
-        REFERENCES public.patients (id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
     CONSTRAINT "withDoctor" FOREIGN KEY (doctorid)
         REFERENCES public.doctors (id) MATCH SIMPLE
         ON UPDATE NO ACTION
